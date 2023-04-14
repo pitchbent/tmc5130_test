@@ -3,18 +3,14 @@
 #include <zephyr/drivers/spi.h>
 #include <zephyr/drivers/gpio.h>
 
+#include "spi_com.h"
 
-/*Config loop*/
-#if CONFIG_SPI_LOOPBACK_MODE_LOOP
-#define MODE_LOOP SPI_MODE_LOOP
-#else
-#define MODE_LOOP 0
-#endif
+
 
 
 /*Configure SPI*/
 #define SPI_DEV DT_COMPAT_GET_ANY_STATUS_OKAY(test)
-#define SPI_OP SPI_OP_MODE_MASTER | SPI_MODE_CPOL | MODE_LOOP | SPI_MODE_CPHA | SPI_WORD_SET(8) | SPI_LINES_SINGLE
+#define SPI_OP SPI_OP_MODE_MASTER | SPI_MODE_CPOL | SPI_MODE_CPHA | SPI_WORD_SET(8) | SPI_LINES_SINGLE
 
 struct spi_dt_spec spi_com = SPI_DT_SPEC_GET(SPI_DEV, SPI_OP, 0);
 
@@ -24,6 +20,8 @@ uint8_t buffer_tx[BUF_SIZE] = {0xAA, 0xBB, 0xCC, 0xDD, 0xFF};
 uint8_t buffer_rx[BUF_SIZE] = {};
 
 uint8_t ret;
+
+uint8_t rx_test[BUF_SIZE]={0,0,0,0,0};
 
 void main(void)
 {
@@ -77,4 +75,15 @@ void main(void)
     {
         printk("Content of rx buf: %x \n", buffer_rx[i]);
     }
+
+    printk("Write stuff \n");
+    write_register(&spi_com,0x6C,0x000100C3);
+
+    printk("Read stuff \n");
+    read_register(&spi_com,0x6C,rx_test);
+
+
+
 }
+
+
