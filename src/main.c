@@ -55,12 +55,14 @@ void main(void)
     read_register(&spi_com,0x6c,rx_test);
 
     rx_test_value = sys_get_be32(&rx_test[1]);
+    //return = e0000000
     printk("Read value: %llx \n", rx_test_value); 
     printk("------------\n");
+    
 
     printk("Read XACTUAL register\n");
-    read_register(&spi_com,0x21,rx_test);
-
+    read_register(&spi_com,0x21,rx_test);   // only read "payload"
+    //return = 8000000
     rx_test_value = sys_get_be32(&rx_test[1]);
     printk("Read value: %llx \n", rx_test_value); 
     printk("------------\n");
