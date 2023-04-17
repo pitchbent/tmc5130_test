@@ -29,6 +29,7 @@ uint64_t rx_test_value = 0;
 void main(void)
 {
 
+    k_msleep(SLEEP_TIME);
     printk("Hi \n");
 
  
@@ -38,7 +39,7 @@ void main(void)
 
     rx_test_value = sys_get_be32(&rx_test[1]);
     printk("Read value: %llx \n", rx_test_value); 
-     printk("------------\n");
+    printk("------------\n");
 
 
 
