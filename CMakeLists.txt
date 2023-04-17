@@ -6,4 +6,4 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(tmc5130_test)
 
 
-target_sources(app PRIVATE src/main.c PRIVATE src/spi_com.c)
+target_sources(app PRIVATE src/main.c PRIVATE src/spi_com.c PRIVATE src/tmc51xx.h)
