@@ -12,7 +12,7 @@
 
 /*Configure SPI*/
 #define SPI_DEV DT_COMPAT_GET_ANY_STATUS_OKAY(test)
-#define SPI_OP SPI_OP_MODE_MASTER | SPI_MODE_GET(3) | SPI_WORD_SET(8) 
+#define SPI_OP SPI_OP_MODE_MASTER | SPI_MODE_GET(3) | SPI_WORD_SET(8) | SPI_TRANSFER_MSB
 
 struct spi_dt_spec spi_com = SPI_DT_SPEC_GET(SPI_DEV, SPI_OP, 0);
 
@@ -29,19 +29,11 @@ uint64_t rx_test_value = 0;
 void main(void)
 {
 
-    k_msleep(SLEEP_TIME);
+
     printk("Hi \n");
 
  
     write_register(&spi_com,0x6C,0x000100C3);
-    printk("Read chopconf register\n");
-    read_register(&spi_com,0x6c,rx_test);
-
-    rx_test_value = sys_get_be32(&rx_test[1]);
-    printk("Read value: %llx \n", rx_test_value); 
-    printk("------------\n");
-
-
 
     write_register(&spi_com,0x10,0x00061F0A);
     write_register(&spi_com,0x11,0x0000000A);
@@ -57,6 +49,21 @@ void main(void)
     write_register(&spi_com,0x2A,0x00000578);
     write_register(&spi_com,0x2B,0x0000000A);
     write_register(&spi_com,0x20,0x00000000); 
+    write_register(&spi_com,0x2D,0xFFFF3800);
+
+    printk("Read chopconf register\n");
+    read_register(&spi_com,0x6c,rx_test);
+
+    rx_test_value = sys_get_be32(&rx_test[1]);
+    printk("Read value: %llx \n", rx_test_value); 
+    printk("------------\n");
+
+    printk("Read XACTUAL register\n");
+    read_register(&spi_com,0x21,rx_test);
+
+    rx_test_value = sys_get_be32(&rx_test[1]);
+    printk("Read value: %llx \n", rx_test_value); 
+    printk("------------\n");
 }
 
 
