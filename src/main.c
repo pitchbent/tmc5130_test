@@ -1,13 +1,8 @@
 #include "main.h"
 
-
-uint8_t buffer_tx[BUF_SIZE] = {0xAA, 0xBB, 0xCC, 0xDD, 0xFF};
-uint8_t buffer_rx[BUF_SIZE] = {};
-
 uint8_t ret;
 
 uint8_t rx_test[BUF_SIZE]={0,0,0,0,0};
-uint32_t rx_test_value = 0;
 
 void main(void)
 {
@@ -16,6 +11,14 @@ void main(void)
     printk("Hi \n");
    
    init_tmc(&spi_com);
+
+   read_register(&spi_com,0x6C,rx_test);
+
+   for (uint8_t i = 0; i < 5; i++)
+   {
+    printk("print received symbols %x \n",rx_test[i]);
+   }
+   
 //------------ Init Done --------------------
 /*    write_register(&spi_com,0x24,0x000003E8);
    k_msleep(SLEEP_TIME);
