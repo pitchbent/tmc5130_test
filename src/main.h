@@ -12,9 +12,11 @@
 
 /*Configure SPI*/
 #define SPI_DEV DT_COMPAT_GET_ANY_STATUS_OKAY(test)
+#define SPI_DEV1 DT_COMPAT_GET_ANY_STATUS_OKAY(test1)
 #define SPI_OP SPI_OP_MODE_MASTER |  SPI_MODE_CPHA | SPI_MODE_CPOL | SPI_WORD_SET(8) | SPI_TRANSFER_MSB
 
 struct spi_dt_spec spi_com = SPI_DT_SPEC_GET(SPI_DEV, SPI_OP, 0);
+struct spi_dt_spec spi_com1 = SPI_DT_SPEC_GET(SPI_DEV1, SPI_OP, 0);
 
 /*Test Buffer*/
 #define BUF_SIZE 5
